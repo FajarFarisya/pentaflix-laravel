@@ -217,6 +217,10 @@
             </div>
         </div>
         <!-- End Upcoming -->
+
+        <!-- Footer -->
+        @include('footer')
+        <!-- End Footer -->
     </div>
 </body>
 
