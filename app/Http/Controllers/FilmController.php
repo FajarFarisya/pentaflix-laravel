@@ -7,16 +7,24 @@ use Illuminate\Support\Facades\Http;
 
 class FilmController extends Controller
 {
+    private $apiKey;
+    private $baseURL;
+    private $imgBaseURL;
+
+    public function __construct()
+    {
+        $this->apiKey = env('FILM_API_KEY');
+        $this->baseURL = env('FILM_API_BASE_URL');
+        $this->imgBaseURL = env('FILM_IMG_BASE_URL');
+
+    }
     public function index(){
-        $apiKey = env('FILM_API_KEY');
-        $baseURL = env('FILM_API_BASE_URL');
-        $imgBaseURL = env('FILM_IMG_BASE_URL');
         $maxHeroFilm=1;
         $maxAllCategories=4;
 
         // API Film in Hero --------------------------------------------------
-        $dataHeroResponse = Http::get("{$baseURL}/trending/movie/week", [
-            'api_key' => $apiKey
+        $dataHeroResponse = Http::get("{$this->baseURL}/trending/movie/week", [
+            'api_key' => $this->apiKey
         ]);
         $filmArray=[];
 
@@ -35,8 +43,8 @@ class FilmController extends Controller
         }
 
         // API Film Now Playing -------------------------------------------------
-        $dataNowPlayingResponse = Http::get("{$baseURL}/movie/now_playing", [
-            'api_key' => $apiKey
+        $dataNowPlayingResponse = Http::get("{$this->baseURL}/movie/now_playing", [
+            'api_key' => $this->apiKey
         ]);
 
         $filmNowPlayArray=[];
@@ -56,8 +64,8 @@ class FilmController extends Controller
         }
 
         // API Film Popular -------------------------------------------------
-        $dataPopularResponse = Http::get("{$baseURL}/movie/popular", [
-            'api_key' => $apiKey
+        $dataPopularResponse = Http::get("{$this->baseURL}/movie/popular", [
+            'api_key' => $this->apiKey
         ]);
 
         $filmPopularArray=[];
@@ -77,8 +85,8 @@ class FilmController extends Controller
         }
 
         // API Film Top Rated -------------------------------------------------
-        $dataTopRatedResponse = Http::get("{$baseURL}/movie/top_rated", [
-            'api_key' => $apiKey
+        $dataTopRatedResponse = Http::get("{$this->baseURL}/movie/top_rated", [
+            'api_key' => $this->apiKey
         ]);
 
         $filmTopRatedArray=[];
@@ -98,8 +106,8 @@ class FilmController extends Controller
         }
 
         // API Film Upcoming -------------------------------------------------
-        $dataUpcomingResponse = Http::get("{$baseURL}/movie/upcoming", [
-            'api_key' => $apiKey
+        $dataUpcomingResponse = Http::get("{$this->baseURL}/movie/upcoming", [
+            'api_key' => $this->apiKey
         ]);
 
         $filmUpcomingArray=[];
@@ -120,9 +128,9 @@ class FilmController extends Controller
 
 
         return view('home', [
-            'baseURL' => $baseURL,
-            'imageBaseURL' => $imgBaseURL,
-            'apiKey' => $apiKey,
+            'baseURL' => $this->baseURL,
+            'imageBaseURL' => $this->imgBaseURL,
+            'apiKey' => $this->apiKey,
             'films' => $filmArray,
             'filmNowPlaying' => $filmNowPlayArray,
             'filmPopular' => $filmPopularArray,
@@ -132,16 +140,13 @@ class FilmController extends Controller
     }
 
     public function films(){
-        $apiKey = env('FILM_API_KEY');
-        $baseURL = env('FILM_API_BASE_URL');
-        $imgBaseURL = env('FILM_IMG_BASE_URL');
         $sortBy = "popularity.desc";
         $page=1;
         $minVoter= 100;
 
         // API Sort -------------------------------------------------
-        $dataSortResponse = Http::get("{$baseURL}/movie/upcoming", [
-            'api_key' => $apiKey,
+        $dataSortResponse = Http::get("{$this->baseURL}/movie/upcoming", [
+            'api_key' => $this->apiKey,
             'sort_by' => $sortBy,
             'vote_count.gte' => $minVoter,
             'page' => $page,
@@ -160,9 +165,9 @@ class FilmController extends Controller
         }
 
         return view('film', [
-            'baseURL' => $baseURL,
-            'imageBaseURL' => $imgBaseURL,
-            'apiKey' => $apiKey,
+            'baseURL' => $this->baseURL,
+            'imageBaseURL' => $this->imgBaseURL,
+            'apiKey' => $this->apiKey,
             'films' => $filmSortArray,
             'sortBy' => $sortBy,
             'page' => $page,
@@ -172,13 +177,10 @@ class FilmController extends Controller
     }
 
     public function filmDetails($id){
-        $apiKey = env('FILM_API_KEY');
-        $baseURL = env('FILM_API_BASE_URL');
-        $imgBaseURL = env('FILM_IMG_BASE_URL');
 
          // API Sort -------------------------------------------------
-         $res = Http::get("{$baseURL}/movie/{$id}", [
-            'api_key' => $apiKey,
+         $res = Http::get("{$this->baseURL}/movie/{$id}", [
+            'api_key' => $this->apiKey,
             'append_to_response' => 'videos'
         ]);
 
@@ -190,10 +192,20 @@ class FilmController extends Controller
         }
 
         return view('film_details', [
-            'baseURL' => $baseURL,
-            'imageBaseURL' => $imgBaseURL,
-            'apiKey' => $apiKey,
+            'baseURL' => $this->baseURL,
+            'imageBaseURL' => $this->imgBaseURL,
+            'apiKey' => $this->apiKey,
             'filmDetail' => $filmDetail,
         ]);
     }
+
+    // public function getFilm($option){
+    //     $responseGetFilm = Http::get("{$this->baseURL}/movie/{$option}", [
+    //         'api_key' => $this->apiKey,
+    //     ]);
+
+    //     return $responseGetFilm->json();
+
+
+    // }
 }
