@@ -26,6 +26,7 @@
             <!-- Hero Poster Film -->
             @foreach ($films as $filmItem)
                 @php
+                    $filmID = $filmItem->id;
                     $backdropImg = "{$imageBaseURL}/original{$filmItem->backdrop_path}";
                     $year = substr($filmItem->release_date, 0, 4);
                     $score = round($filmItem->vote_average * 10);
@@ -46,7 +47,7 @@
                                 <span>Play Trailer</span>
                             </a>
                             <a class="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-white/0 text-slate-200 ring-1 ring-slate-900/10 hover:bg-white/25 hover:ring-slate-900/15 "
-                                href="/templates">
+                                href="film/{{$filmID}}">
                                 <span>
                                     More Detail<!-- -->
                                     <span aria-hidden="true" class="text-white inline">
@@ -67,18 +68,19 @@
             <div class="w-auto flex flex-row overflow-x-auto py-2">
                 @foreach ($filmNowPlaying as $filmNowPlayingItem)
                     @php
+                        $filmNowPlayingID = $filmNowPlayingItem->id;
                         $posterImg = "{$imageBaseURL}/w500{$filmNowPlayingItem->poster_path}";
                     @endphp
                     <!-- Card -->
                     <div
                         class="w-[1024px] md:w-[300px] mr-5 bg-gray-900 border border-gray-700 rounded-lg shadow mt-5">
-                        <a href="#">
+                        <a href="film/{{$filmNowPlayingID}}">
                             <div class="overflow-hidden rounded-t-lg">
                                 <img class="rounded hover:scale-110 duration-200" src="{{ $posterImg }}" alt="{{ $filmNowPlayingItem->title }}" />
                             </div>
                         </a>
                         <div class="p-5">
-                            <a href="#">
+                            <a href="film/{{$filmNowPlayingID}}">
                                 <h5 class="mb-2 text-md md:text-xl font-bold tracking-tight text-white">
                                     {{ $filmNowPlayingItem->title }}
                                 </h5>
@@ -106,18 +108,19 @@
             <div class="w-auto flex flex-row overflow-x-auto py-2">
                 @foreach ($filmPopular as $filmPopularItem)
                     @php
+                        $filmPopularID = $filmPopularItem->id;
                         $posterImgPopular = "{$imageBaseURL}/w500{$filmPopularItem->poster_path}";
                     @endphp
                     <!-- Card -->
                     <div
                         class="w-[1024px] md:w-[300px] mr-5 bg-gray-900 border border-gray-700 rounded-lg shadow mt-5">
-                        <a href="#">
+                        <a href="film/{{$filmPopularID}}">
                             <div class="overflow-hidden rounded-t-lg">
                                 <img class="rounded hover:scale-110 duration-200" src="{{ $posterImgPopular }}" alt="{{ $filmPopularItem->title }}" />
                             </div>
                         </a>
                         <div class="p-5">
-                            <a href="#">
+                            <a href="film/{{$filmPopularID}}">
                                 <h5 class="mb-2 text-md md:text-xl font-bold tracking-tight text-white">
                                     {{ $filmPopularItem->title }}
                                 </h5>
@@ -146,18 +149,19 @@
             <div class="w-auto flex flex-row overflow-x-auto py-2">
                 @foreach ($filmTopRated as $filmTopRatedItem)
                     @php
+                        $filmTopRatedID = $filmTopRatedItem->id;
                         $posterImgTopRated = "{$imageBaseURL}/w500{$filmTopRatedItem->poster_path}";
                     @endphp
                     <!-- Card -->
                     <div
                         class="w-[1024px] md:w-[300px] mr-5 bg-gray-900 border border-gray-700 rounded-lg shadow mt-5">
-                        <a href="#">
+                        <a href="film/{{$filmTopRatedID}}">
                             <div class="overflow-hidden rounded-t-lg">
                                 <img class="rounded hover:scale-110 duration-200" src="{{ $posterImgTopRated }}" alt="{{ $filmTopRatedItem->title }}" />
                             </div>
                         </a>
                         <div class="p-5">
-                            <a href="#">
+                            <a href="film/{{$filmTopRatedID}}">
                                 <h5 class="mb-2 text-md md:text-xl font-bold tracking-tight text-white">
                                     {{ $filmTopRatedItem->title }}
                                 </h5>
@@ -185,18 +189,19 @@
             <div class="w-auto flex flex-row overflow-x-auto py-2">
                 @foreach ($filmUpcoming as $filmUpcomingItem)
                     @php
+                        $filmUpcomingID = $filmUpcomingItem->id;
                         $posterImgUpcoming = "{$imageBaseURL}/w500{$filmUpcomingItem->poster_path}";
                     @endphp
                     <!-- Card -->
                     <div
                         class="w-[1024px] md:w-[300px] mr-5 bg-gray-900 border border-gray-700 rounded-lg shadow mt-5">
-                        <a href="#">
+                        <a href="film/{{$filmUpcomingID}}">
                             <div class="overflow-hidden rounded-t-lg">
                                 <img class="rounded hover:scale-110 duration-200" src="{{ $posterImgUpcoming }}" alt="{{ $filmUpcomingItem->title }}" />
                             </div>
                         </a>
                         <div class="p-5">
-                            <a href="#">
+                            <a href="film/{{$filmUpcomingID}}">
                                 <h5 class="mb-2 text-md md:text-xl font-bold tracking-tight text-white">
                                     {{ $filmUpcomingItem->title }}
                                 </h5>

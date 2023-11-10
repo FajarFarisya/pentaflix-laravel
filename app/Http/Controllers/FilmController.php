@@ -131,5 +131,69 @@ class FilmController extends Controller
         ]);
     }
 
+    public function films(){
+        $apiKey = env('FILM_API_KEY');
+        $baseURL = env('FILM_API_BASE_URL');
+        $imgBaseURL = env('FILM_IMG_BASE_URL');
+        $sortBy = "popularity.desc";
+        $page=1;
+        $minVoter= 100;
 
+        // API Sort -------------------------------------------------
+        $dataSortResponse = Http::get("{$baseURL}/movie/upcoming", [
+            'api_key' => $apiKey,
+            'sort_by' => $sortBy,
+            'vote_count.gte' => $minVoter,
+            'page' => $page,
+        ]);
+
+        $filmSortArray=[];
+
+        // Check API
+        if($dataSortResponse->successful()){
+            $resultDataFilm=$dataSortResponse->object()->results;
+            if(isset($resultDataFilm)){
+                foreach($resultDataFilm as $item){
+                    array_push($filmSortArray, $item);
+                }
+            }
+        }
+
+        return view('film', [
+            'baseURL' => $baseURL,
+            'imageBaseURL' => $imgBaseURL,
+            'apiKey' => $apiKey,
+            'films' => $filmSortArray,
+            'sortBy' => $sortBy,
+            'page' => $page,
+            'minVoter' => $minVoter,
+        ]);
+
+    }
+
+    public function filmDetails($id){
+        $apiKey = env('FILM_API_KEY');
+        $baseURL = env('FILM_API_BASE_URL');
+        $imgBaseURL = env('FILM_IMG_BASE_URL');
+
+         // API Sort -------------------------------------------------
+         $res = Http::get("{$baseURL}/movie/{$id}", [
+            'api_key' => $apiKey,
+            'append_to_response' => 'videos'
+        ]);
+
+        $filmDetail=null;
+
+        // Check API
+        if($res->successful()){
+            $filmDetail=$res->object();
+        }
+
+        return view('film_details', [
+            'baseURL' => $baseURL,
+            'imageBaseURL' => $imgBaseURL,
+            'apiKey' => $apiKey,
+            'filmDetail' => $filmDetail,
+        ]);
+    }
 }
